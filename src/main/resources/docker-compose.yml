@@ -1,0 +1,15 @@
+version: "3.7"
+services:
+
+
+  shopping-backend-springboot-database:
+    image: postgres:latest
+    container_name: shopping-backend-springboot-database
+    ports:
+      - 5433:5432
+    environment:
+      TZ: Europe/Berlin
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: shopping-backend-springboot
+    restart: always
