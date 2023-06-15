@@ -4,7 +4,7 @@ import com.example.shoppingbackendspringboot.entity.Order;
 import com.example.shoppingbackendspringboot.repository.OrderRepository;
 import com.example.shoppingbackendspringboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
+import com.example.shoppingbackendspringboot.entity.User;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

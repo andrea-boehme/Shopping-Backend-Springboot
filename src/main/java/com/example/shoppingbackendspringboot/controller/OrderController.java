@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Shopping")
+@RequestMapping("/order")
 @RequiredArgsConstructor
 public class OrderController {
 
@@ -27,16 +27,16 @@ public class OrderController {
 
 
     @GetMapping
-    @PreAuthorize("hasRole('ORDER_READ_ALL')")
+    //@PreAuthorize("hasRole('ORDER_READ_ALL')")
     public List<Order> getAllOrders() {
         return this.orderService.getAllOrders();
     }
 
-    @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ORDER_READ_ALL BY ORDER ID')")
-    public Order getOrderById(@PathVariable("id") Long id) {
-        return this.orderService.getOrderById(id);
-    }
+//    @GetMapping("/{id}")
+//    @PreAuthorize("hasRole('ORDER_READ BY ORDER ID')")
+//    public Order getOrderById(@PathVariable("id") Long id) {
+//        return this.orderService.getOrderById(id);
+//    }
 
     @PostMapping
     @PreAuthorize("hasRole('ORDER_CREATE')")

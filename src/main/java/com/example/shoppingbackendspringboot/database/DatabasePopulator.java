@@ -53,11 +53,11 @@ public class DatabasePopulator implements CommandLineRunner {
         final User userThree = new User(null, "fbenno@gmail.com", "Fritz", "Benno", "Fbenno", addressThree);
         userRepository.save(userThree);
 
-        Product productOne = new Product(null, "Phone", "iPhone Model X", 1000.00, ELECTRONICS, AVAILABLE);
+        Product productOne = new Product(null, "Phone", "iPhone Model X", 100F, ELECTRONICS, AVAILABLE);
         productRepository.save(productOne);
-        Product productTwo = new Product(null, "Hello Kitty", "Story of a cat for children", 50.00, BOOKS, OUT_OF_STOCK);
+        Product productTwo = new Product(null, "Hello Kitty", "Story of a cat for children", 50F, BOOKS, OUT_OF_STOCK);
         productRepository.save(productTwo);
-        Product productThree = new Product(null, "Dress", "Dress for women size M", 80.00, CLOTHING, LIMITED_STOCK);
+        Product productThree = new Product(null, "Dress", "Dress for women size M", 80F, CLOTHING, LIMITED_STOCK);
         productRepository.save(productThree);
 
 

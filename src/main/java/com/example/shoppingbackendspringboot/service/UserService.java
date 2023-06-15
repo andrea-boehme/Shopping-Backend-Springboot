@@ -1,8 +1,10 @@
 package com.example.shoppingbackendspringboot.service;
 
+import com.example.shoppingbackendspringboot.entity.Product;
 import com.example.shoppingbackendspringboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
+
+import com.example.shoppingbackendspringboot.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +14,9 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
     }
-
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -32,7 +33,4 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
 }
