@@ -19,11 +19,11 @@ public class CartService {
     public Cart updateCart(User user, Product product, Integer quantity) {
         Cart cart = cartRepository.findCartByUser(user);
 
-        if (cart.getItems().containsKey(product) && quantity != 1) {            // Situation 2: Produkt ist vorhanden und Menge nicht 1, neue Menge übernehmen
+        if (cart.getItems().containsKey(product) && quantity != 0) {            // Situation 2: Produkt ist vorhanden und Menge nicht 1, neue Menge übernehmen
             Integer newQuantity = cart.getItems().get(product);
             newQuantity = quantity;
-        } else if (cart.getItems().containsKey(product) && quantity == 1)  {   // Situation 3: Produkt ist vorhanden mit Menge 1
-            cart.getItems().remove(product, quantity);
+        } else if (cart.getItems().containsKey(product) && quantity == 0)  {   // Situation 3: Produkt ist vorhanden mit Menge 1
+            cart.getItems().remove(product);
         } else {
             cart.getItems().put(product, quantity);                            // Situation 1: Produkt ist nicht vorhanden
         }

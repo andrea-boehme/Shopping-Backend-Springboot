@@ -1,5 +1,6 @@
 package com.example.shoppingbackendspringboot.controller;
 
+import com.example.shoppingbackendspringboot.dto.CartUpdateDTO;
 import com.example.shoppingbackendspringboot.entity.Cart;
 import com.example.shoppingbackendspringboot.entity.Product;
 import com.example.shoppingbackendspringboot.entity.User;
@@ -24,8 +25,8 @@ public class CartController {
 
     @PutMapping("/update")
     @PreAuthorize("hasRole('UPDATE Cart')")
-    public Cart updateCart(@AuthenticationPrincipal User user, Product product, Integer quantity)  {
-        return this.cartService.updateCart(user, product, quantity);
+    public Cart updateCart(@AuthenticationPrincipal User user, @RequestBody CartUpdateDTO cartUpdateDTO)  {
+        return this.cartService.updateCart(user, cartUpdateDTO.getProduct(), cartUpdateDTO.getQuantity());
     }
 
 //    @PutMapping("/add")
