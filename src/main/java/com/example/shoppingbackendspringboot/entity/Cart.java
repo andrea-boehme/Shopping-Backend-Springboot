@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class Cart {
     private Long id;
     @OneToOne
     private User user;
-
-    //private Map<Product, Integer> items;
+    @ElementCollection
+    //@OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private Map<Product, Integer> items = new HashMap<>();
 }
