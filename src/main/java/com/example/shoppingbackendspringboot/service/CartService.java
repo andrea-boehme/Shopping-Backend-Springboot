@@ -16,42 +16,23 @@ public class CartService {
     private final CartRepository cartRepository;
 
     public Cart getCart(User user) {
-        return cartRepository.findCartByUser(user).orElse(null);
+        return cartRepository.findCartByUser(user).orElse(new Cart(null, user, new ArrayList<>()));
     }
 
     public Cart updateCart(User user, Product product, Integer quantity) {
         Cart cart = cartRepository.findCartByUser(user).orElse(new Cart(null, user, new ArrayList<>()));
-
-//        if (cart.getItems().contains(product) && quantity != 0) {            // Situation 2: Produkt ist vorhanden und Menge nicht 1, neue Menge übernehmen
-//            Integer newQuantity = cart.getItems().get(product);
-//            newQuantity = quantity;
-//        } else if (cart.getItems().contains(product) && quantity == 0)  {   // Situation 3: Produkt ist vorhanden mit Menge 1
-//            cart.getItems().remove(product);
-//        } else {
-            cart.getItems().add(new ProductQuantity(null, product, quantity));                            // Situation 1: Produkt ist nicht vorhanden
-//        }
+        System.out.println(cart);
+        ProductQuantity productQuantity = cart.getItems().stream().filter(p -> p.getProduct().equals(product)).findFirst().orElse(null);
+        System.out.println(productQuantity);
+        if (productQuantity != null) {
+            if (quantity.equals(0)) {
+                cart.getItems().remove(productQuantity);
+            } else {
+                productQuantity.setQuantity(quantity);
+            }
+        } else {
+            cart.getItems().add(new ProductQuantity(null, product, quantity));
+        }
          return cartRepository.save(cart);
     }
-//
-//    public Cart addCart(User user, Product product, Integer quantity) {
-//        Cart cart = cartRepository.findCartByUser(user);
-//        if (cart.getItems().containsKey(product)) {
-//            Integer newQuantity = cart.getItems().get(product);
-//            newQuantity += quantity;
-//        } else {
-//            cart.getItems().put(product, quantity);
-//        }
-//        return cartRepository.save(cart);
-//    }
-
-//    public Cart removeCart(User user, Product product, Integer quantity) {
-//        Cart cart = cartRepository.findCartByUser(user);
-//        if (cart.getItems().containsKey(product)) {
-//            Integer newQuantity = cart.getItems().get(product);
-//            newQuantity -= quantity;
-//        }
-//        return cartRepository.save(cart);
-//    }
-
-
 }
