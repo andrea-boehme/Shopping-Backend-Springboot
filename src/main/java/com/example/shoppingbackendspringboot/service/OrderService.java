@@ -1,18 +1,23 @@
 package com.example.shoppingbackendspringboot.service;
 
+import com.example.shoppingbackendspringboot.entity.Cart;
 import com.example.shoppingbackendspringboot.entity.Order;
+import com.example.shoppingbackendspringboot.entity.ProductQuantity;
+import com.example.shoppingbackendspringboot.repository.CartRepository;
 import com.example.shoppingbackendspringboot.repository.OrderRepository;
 import com.example.shoppingbackendspringboot.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import com.example.shoppingbackendspringboot.entity.User;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final UserRepository userRepository;
+    private final CartRepository cartRepository;
 
     private final UserService userService;
 
@@ -25,6 +30,12 @@ public class OrderService {
     }
 
     public Order createOrder(Order order) {
+        // todo: reset shopping cart content
+//        for (ProductQuantity productQuantity: order.getItems()) {
+//            productQuantity.setId(null);
+//        }
+        Cart cart = this.cartRepository.findCartByUser(order.getUser()).orElse(null);
+        this.cartRepository.delete(cart);
         return orderRepository.save(order);
     }
 
@@ -40,4 +51,14 @@ public class OrderService {
         User user = this.userService.getUserById(id);
         return orderRepository.findAllByUser(user);
     }
+
+    public List<ProductQuantity> getItemsByUser(User user) {
+        Cart cart = cartRepository.findCartByUser(user).orElse(null);
+        ArrayList<ProductQuantity> products = new ArrayList<>();
+        for (ProductQuantity productQuantity: cart.getItems()) {
+            products.add(new ProductQuantity(null, productQuantity.getProduct() ,productQuantity.getQuantity()));
+        }
+        return products;
+    }
+
 }

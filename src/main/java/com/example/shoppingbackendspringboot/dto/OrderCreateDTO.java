@@ -17,8 +17,6 @@ public class OrderCreateDTO {
     @NotBlank
     private String user;
 
-    //private Map<Product, Integer> items;
-
     private Boolean paid;
     private ShippingState shippingState;
 

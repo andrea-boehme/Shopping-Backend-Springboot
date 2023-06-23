@@ -23,6 +23,6 @@ public class Cart {
     @OneToOne
     private User user;
 
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = false)
     private List<ProductQuantity> items = new ArrayList<>();
 }

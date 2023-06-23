@@ -3,16 +3,16 @@ package com.example.shoppingbackendspringboot.entity;
 import com.example.shoppingbackendspringboot.enumeration.Availability;
 import com.example.shoppingbackendspringboot.enumeration.Category;
 import com.example.shoppingbackendspringboot.enumeration.ShippingState;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -25,13 +25,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
-    private String user;
+    @OneToOne
+    private User user;
 
-    //private Map<Product, Integer> items;
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<ProductQuantity> items = new ArrayList<>();
     private Boolean paid;
     private ShippingState shippingState;
 
+    @CreatedDate
     private Date date;
 
-    // getters and setters
 }

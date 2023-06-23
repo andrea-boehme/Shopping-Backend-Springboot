@@ -3,6 +3,9 @@ package com.example.shoppingbackendspringboot.controller;
 import com.example.shoppingbackendspringboot.dto.OrderCreateDTO;
 import com.example.shoppingbackendspringboot.dto.OrderUpdateDTO;
 import com.example.shoppingbackendspringboot.entity.Order;
+import com.example.shoppingbackendspringboot.entity.Product;
+import com.example.shoppingbackendspringboot.entity.User;
+import com.example.shoppingbackendspringboot.enumeration.ShippingState;
 import com.example.shoppingbackendspringboot.service.OrderService;
 import com.example.shoppingbackendspringboot.service.UserService;
 import jakarta.validation.Valid;
@@ -11,10 +14,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/order")
@@ -40,9 +46,11 @@ public class OrderController {
 
     @PostMapping
     @PreAuthorize("hasRole('ORDER_CREATE')")
-    public ResponseEntity<Order> createOrder(@Valid @RequestBody OrderCreateDTO orderCreateDTO) {
-        return new ResponseEntity<>(this.orderService.createOrder(modelMapper.map(orderCreateDTO, Order.class)), HttpStatus.CREATED);
+    public ResponseEntity<Order> createOrder(@AuthenticationPrincipal User user) {
+        Order newOrder = new Order(null, user, this.orderService.getItemsByUser(user),false, ShippingState.PENDING, null);
+        return new ResponseEntity<>(this.orderService.createOrder(newOrder), HttpStatus.CREATED);
     }
+
 
     @PutMapping
     @PreAuthorize("hasRole('ORDER_UPDATE')")
